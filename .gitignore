@@ -1,0 +1,10 @@
+/work/
+/outputs/*.FCStd
+!/outputs/Casa-Demo-4x4.FCStd
+__pycache__/
+*.py[cod]
+*.log
+*.FCBak
+*.FCStd1
+*.bak
+/Atria/GUIFreeCad/config/
