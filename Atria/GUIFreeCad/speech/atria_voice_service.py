@@ -11,6 +11,7 @@ import queue
 import threading
 import time
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable, Literal
 
 from GUIFreeCad.core.atria_log import get_logger
@@ -334,6 +335,11 @@ class AtriaVoiceService:
         log.info("hilo de voz arrancando: modelo=%s", model_path)
         try:
             self._ensure_portaudio_on_linux()
+            # The desktop launcher also provides this path via PYTHONPATH.
+            # Look it up here so starting FreeCAD directly works as well.
+            local_dependencies = Path(__file__).resolve().parents[3] / "work" / "atria-deps"
+            if local_dependencies.is_dir() and str(local_dependencies) not in sys.path:
+                sys.path.append(str(local_dependencies))
             import sounddevice as sd
             from vosk import KaldiRecognizer, Model
         except Exception as exc:

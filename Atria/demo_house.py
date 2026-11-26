@@ -221,6 +221,9 @@ class HouseDemo:
             words.pop()
         return phrase in CONFIRMATIONS or ' '.join(words) in self.choice_words
 
+    def has_pending_command(self):
+        return bool(self.pending or self._extra_state or self._room_state)
+
     def handle(self, phrase):
         if self.uses_raw_phrase(phrase):
             self.prompt.ProcessFinalText(phrase)
@@ -519,4 +522,6 @@ def install(browser):
             demo.tell(message)
             return BrowserResult(False, 'house_demo', message)
     browser.ProcessPhrase = process
+    import demo_extension
+    demo_extension.install_extra(demo)
     return demo

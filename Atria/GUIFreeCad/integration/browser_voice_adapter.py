@@ -133,7 +133,7 @@ class BrowserVoiceAdapter:
             # Ya en el hilo principal: recien aca se puede tocar la GUI.
             demo = self._browser._house_demo
             command = normalized if demo.uses_raw_phrase(normalized) else token
-            if command is None or (command == "cancelar" and not demo.pending):
+            if command is None or (command == "cancelar" and not demo.has_pending_command()):
                 return
             self._publish_line(f"[ATRIA] Voz: {raw_phrase}", recognized=raw_phrase)
 
