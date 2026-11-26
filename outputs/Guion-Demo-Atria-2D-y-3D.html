@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guion de la demo de Atria · 2D y 3D</title>
+<style>
+body{font:17px/1.55 system-ui,sans-serif;max-width:920px;margin:36px auto;padding:0 20px;color:#233139;background:#f8f7f3}h1,h2,h3{line-height:1.2}h2{margin-top:2em;color:#24544c}table{border-collapse:collapse;width:100%;background:white}th,td{padding:10px;border:1px solid #d6ded8;text-align:left;vertical-align:top}th{background:#e5efe8}li{margin:.45em 0}.note{background:#e8f1ec;padding:14px 18px;border-radius:8px}.say{font-weight:700}a{color:#164c72}@media print{body{background:white;margin:0;padding:0}h2,h3{break-after:avoid}tr{break-inside:avoid}}
+</style>
+<h1>Guion de la demo de Atria</h1>
+<p>Primero dibujamos una fachada en 2D. Después mostramos las herramientas de Arquitectura y armamos una casa 3D con los comandos preparados.</p>
+<p class="note">Antes de la charla, cerrá FreeCAD y abrí <b>Abrir-DemoATRIA.cmd</b> desde la carpeta extraída. Esperá «Micrófono activo». Decí una frase por vez. Cuando aparezca un cartel de medidas, dictá el valor y decí <b>«aceptar»</b>. Podés decir ambas cosas juntas. <b>«Cancelar»</b> cierra la pregunta actual. Las secciones y los comandos se pueden confirmar con <b>«enviar»</b> si hace falta.</p>
+
+<h2>1. Abrir un documento y dibujar en 2D</h2>
+<ol>
+<li>Decí <span class="say">«Nuevo archivo con nombre»</span>. En el cartel, decí <span class="say">«Casa dos de»</span>. Se abre el documento <b>Casa 2D</b>. Podés comentar que con <b>«Explorador» → «Archivo» → «Nuevo»</b> también podés abrir un documento, con el nombre inicial <b>Proyecto Atria</b>.</li>
+<li>Decí <span class="say">«Dibujo dos de»</span> para mostrar la sección de dibujo. Señalá que pueden crear y modificar figuras con medidas dictadas.</li>
+<li>Decí <span class="say">«Crear cuadrado»</span>. Cuando pida el lado, decí <span class="say">«Cuatro mil aceptar»</span>. Es el contorno de la fachada, de 4 × 4 m en el plano XY.</li>
+<li>Decí <span class="say">«Dibujar puerta»</span> o <span class="say">«Crear rectángulo para puerta»</span>. Para el ancho, decí <span class="say">«Novecientos aceptar»</span>. Para la altura, <span class="say">«Dos mil cien aceptar»</span>. Aparece un rectángulo centrado abajo.</li>
+<li>Presentá el guion preparado: «Ya hicimos dos figuras paso a paso. Ahora vamos a terminar el dibujo con una sola orden». Decí <span class="say">«Completar fachada»</span>. Agrega dos ventanas y el techo a dos aguas visto de frente. Si querés mostrarlo por partes, usá <span class="say">«Dibujar ventanas»</span> y <span class="say">«Dibujar techo a dos aguas»</span>.</li>
+</ol>
+<p><a href="Casa-Demo-2D.FCStd">Abrir el ejemplo terminado de 2D</a>. Para conservar lo que dibujaste en vivo, guardalo antes de borrar.</p>
+
+<h2>2. Limpiar el dibujo y mostrar Arquitectura</h2>
+<p>En <b>Casa 2D</b>, decí <span class="say">«Seleccionar» → «Seleccionar todo» → «Borrar» → «Atrás»</span>. Esto vacía el documento activo. Después decí <span class="say">«Nuevo archivo con nombre» → «Prueba tres de» → «Arquitectura»</span>. Así las piezas de prueba quedan en un documento aparte.</p>
+<p>En este bloque, las medidas y coordenadas están en milímetros. Esperá cada cartel y respondé en el orden indicado. Sumá <b>«aceptar»</b> a cada número.</p>
+<table><tr><th>Decí</th><th>Carteles y respuestas, en orden</th></tr>
+<tr><td class="say">«Crear losa»</td><td>Largo <b>cinco mil</b> → ancho <b>cuatro mil</b> → espesor <b>ciento cincuenta</b> → X <b>cero</b> → Y <b>cero</b> → Z <b>cero</b>.</td></tr>
+<tr><td class="say">«Crear muro»</td><td>Largo <b>tres mil quinientos</b> → espesor <b>doscientos</b> → altura <b>dos mil seiscientos</b> → X <b>cero</b> → Y <b>cero</b> → Z <b>ciento cincuenta</b>.</td></tr>
+<tr><td class="say">«Crear escalera»</td><td>Escalones <b>diez</b> → huella <b>doscientos ochenta</b> → contrahuella <b>ciento setenta y cinco</b> → ancho <b>novecientos</b> → X <b>mil</b> → Y <b>mil trescientos</b> → Z <b>ciento cincuenta</b>.</td></tr>
+</table>
+<p>Decí <span class="say">«Vista isométrica»</span> y <span class="say">«Ajustar todo»</span> si las piezas quedan fuera de cuadro. Para demostrar cómo cambia la altura de un objeto seleccionado, entrá en <b>«Modificar»</b>, decí <b>«Cambiar posición»</b> y respondé <b>cero, cero, quinientos</b> en X, Y y Z.</p>
+<p>Antes de la casa, verificá que el documento activo sea <b>Prueba 3D</b> y decí <span class="say">«Seleccionar» → «Seleccionar todo» → «Borrar» → «Atrás»</span>.</p>
+
+<h2>3. Construir la casa con el guion 3D</h2>
+<table><tr><th>Decí</th><th>Qué hacer a continuación</th></tr>
+<tr><td class="say">«Crear piso»</td><td>Frente <b>cuatro metros aceptar</b> → fondo <b>cinco metros aceptar</b> → espesor <b>quince centímetros aceptar</b>. Se abre la casa en otro documento. También podés dictar 4 × 4 u otra medida dentro de los límites de la demo.</td></tr>
+<tr><td class="say">«Rodear piso de paredes»</td><td>Altura <b>dos coma seis metros aceptar</b> → espesor <b>veinte centímetros aceptar</b>.</td></tr>
+<tr><td class="say">«Insertar una puerta al frente»</td><td>Aparecen la puerta centrada y el hueco en el muro.</td></tr>
+<tr><td class="say">«Colocar ventana»</td><td>Cuando pregunte en qué pared, decí <b>«frente»</b>.</td></tr>
+<tr><td class="say">«Poner una ventana»</td><td>Respondé <b>«costado derecho»</b>. También acepta <b>«costado izquierdo»</b> y <b>«fondo»</b>.</td></tr>
+<tr><td class="say">«Añadir techo a dos aguas»</td><td>Cierra la casa con los dos faldones. Decí <b>«ocultar techo»</b> para mostrar el interior y <b>«mostrar techo»</b> para volver a colocarlo.</td></tr>
+<tr><td class="say">«Guardar casa»</td><td>Guarda el modelo en la carpeta de resultados de la demo.</td></tr>
+</table>
+<p class="note"><b>Si el reconocimiento se traba:</b> mirá el texto reconocido y repetí la frase canónica. También podés decir <b>«poner una ventana al frente»</b> o <b>«poner una ventana al costado»</b> para ir directo. Guardá el <a href="Casa-Demo-4x4.FCStd">ejemplo 3D terminado</a> como respaldo para seguir explicando mientras recuperan la voz.</p>
+</html>

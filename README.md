@@ -12,3 +12,7 @@ La [casa de ejemplo](outputs/Casa-Demo-4x4.FCStd) se puede abrir directamente en
 El lanzador busca FreeCAD en las rutas habituales. Si lo instalaste en otra carpeta, podés indicarle la ruta desde PowerShell con `-FreeCADExe` y la ubicación de `freecad.exe`.
 
 El código de Atria proviene de [DAv-Project-Team-UADER/Atria](https://github.com/DAv-Project-Team-UADER/Atria), revisión `758443faf61dce2a3ca84bc448921658f2be9007`. La licencia del proyecto se incluye en [Atria/LICENSE](Atria/LICENSE).
+
+## Guion completo 2D y 3D
+
+Abrí [el guion de la jornada](outputs/Guion-Demo-Atria-2D-y-3D.html) para seguir el recorrido desde el primer documento. La [fachada de ejemplo](outputs/Casa-Demo-2D.FCStd) está lista para abrir en FreeCAD.

@@ -24,8 +24,12 @@ except ImportError:
     Gui = None  # type: ignore[assignment]
 from .ayuda import ayuda
 
+def new_document():
+    return FreeCAD.newDocument('ProyectoAtria', 'Proyecto Atria')
+
+
 file = {
-    'new':      lambda: FreeCAD.newDocument(),
+    'new':      new_document,
     'open':     lambda: Gui.runCommand('Std_Open', 0),
     'save':     lambda: FreeCAD.activeDocument().save(),
     'saveas':   lambda: Gui.runCommand('Std_SaveAs', 0),

@@ -824,8 +824,11 @@ def slab(
         import Draft
 
         sl = Arch.makeStructure(length=length, width=width, height=thickness)
-        if hasattr(sl, "Role"):
+        if hasattr(sl, "IfcType"):
+            sl.IfcType = "Slab"
+        elif hasattr(sl, "Role"):
             sl.Role = "Slab"
+        sl.Label = "Losa"
         if FreeCAD and hasattr(sl, "Placement"):
             sl.Placement.Base = FreeCAD.Vector(x, y, z)
         Draft.autogroup(sl)

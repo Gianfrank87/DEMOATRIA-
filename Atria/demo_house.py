@@ -92,12 +92,16 @@ def measure(text, default_unit):
 
 class HouseDemo:
     def __init__(self, ui=True):
+        from demo_showcase import Showcase
+
         self.pending = None
         self.values = {}
         self.ui = ui
         self.label = None
         self.question = ''
         self.prompt = None
+        self.choice_words = None
+        self.showcase = Showcase(self, measure)
 
     def tell(self, message):
         print('[CASA] ' + message)
@@ -126,26 +130,45 @@ class HouseDemo:
         phrases.extend(phrase.replace('anadir ', 'añadir ', 1) for phrase in COMMANDS if phrase.startswith('anadir '))
         phrases.extend(('centímetro', 'centímetros', 'milímetro', 'milímetros'))
         phrases.extend(CONFIRMATIONS)
+        phrases.extend(self.showcase.phrases())
         return phrases
 
-    def ask(self, stage, question):
-        self.close_prompt()
-        self.pending = stage
-        self.question = question
+    def ask(self, stage, question, *, parse=None, on_accept=None):
+        parser = parse or (lambda text: self.parse_measure(stage, text))
         if not self.ui:
+            self.pending = stage
+            self.question = question
             return self.tell(question)
 
         import FreeCADGui as Gui
         from InputPrompts.FloatInputPrompt import FloatInputPrompt
-        from PySide6.QtCore import Qt
-
-        demo = self
 
         class HouseMeasurePrompt(FloatInputPrompt):
             def _ParseAccumulatedText(self, text):
-                return demo.parse_measure(stage, text)
+                return parser(text)
 
         prompt = HouseMeasurePrompt('Medida de la casa', question + '\nDictá el valor y decí «aceptar».', Gui.getMainWindow())
+        return self.show_prompt(stage, question, prompt, on_accept or self.answer)
+
+    def ask_choice(self, stage, question, options, on_accept):
+        import FreeCADGui as Gui
+        from InputPrompts.ChoiceInputPrompt import ChoiceInputPrompt
+
+        class DemoChoicePrompt(ChoiceInputPrompt):
+            def _OnOkClicked(self):
+                self.AcceptValue(self.GetSelectedKey())
+
+        prompt = DemoChoicePrompt(options, 'Elegir en la demo', question, Gui.getMainWindow())
+        words = {word for _, _, aliases in options for word in aliases}
+        return self.show_prompt(stage, question, prompt, on_accept, words | {'arriba', 'abajo'})
+
+    def show_prompt(self, stage, question, prompt, on_accept, choice_words=None):
+        from PySide6.QtCore import Qt
+
+        self.close_prompt()
+        self.pending = stage
+        self.question = question
+        self.choice_words = choice_words
         prompt.setWindowModality(Qt.WindowModality.NonModal)
         self.prompt = prompt
 
@@ -153,11 +176,12 @@ class HouseDemo:
             if self.prompt is not prompt:
                 return
             self.prompt = None
+            self.choice_words = None
             result = prompt.GetResult()
             prompt.deleteLater()
             if result.Success:
                 try:
-                    self.answer(result.Value)
+                    on_accept(result.Value)
                 except Exception as exc:
                     self.pending = None
                     self.tell(f'No se pudo completar el paso. {exc}')
@@ -171,6 +195,7 @@ class HouseDemo:
 
     def close_prompt(self):
         prompt, self.prompt = self.prompt, None
+        self.choice_words = None
         if prompt is not None:
             prompt.reject()
             prompt.deleteLater()
@@ -187,7 +212,14 @@ class HouseDemo:
         return first_word in NUMBERS or first_word in ('mil', 'menos') or bool(re.match(r'^\d', first_word))
 
     def uses_raw_phrase(self, phrase):
-        return self.prompt is not None and (phrase in CONFIRMATIONS or self.is_measure_phrase(phrase))
+        if self.prompt is None:
+            return False
+        if self.choice_words is None:
+            return phrase in CONFIRMATIONS or self.is_measure_phrase(phrase)
+        words = phrase.split()
+        if words and words[-1] in CONFIRMATIONS:
+            words.pop()
+        return phrase in CONFIRMATIONS or ' '.join(words) in self.choice_words
 
     def handle(self, phrase):
         if self.uses_raw_phrase(phrase):
@@ -198,6 +230,9 @@ class HouseDemo:
             if not self.pending and phrase == 'cancelar':
                 return None
             return self.cancel_question()
+        showcase_result = self.showcase.handle(phrase)
+        if showcase_result is not None:
+            return showcase_result
         if phrase == 'ayuda casa':
             help_text = 'Crear piso de cuatro por cuatro → espesor. Rodear piso de paredes → altura → espesor. Poner puerta al frente. Poner una ventana al frente. Poner una ventana al costado. Poner dos ventanas al frente. Poner techo a dos aguas. Ocultar techo. Mostrar techo. Guardar casa.'
             return self.tell(help_text + ('\n' + self.question if self.pending else ''))
@@ -398,6 +433,8 @@ class HouseDemo:
             'Izquierda': (l * 0.22, 'CasaFrente', 'izquierda del frente'),
             'Derecha': (l * 0.78, 'CasaFrente', 'derecha del frente'),
             'CostadoDerecho': (w / 2, 'CasaLateralDerecho', 'del costado derecho'),
+            'CostadoIzquierdo': (w / 2, 'CasaLateralIzquierdo', 'del costado izquierdo'),
+            'Fondo': (l / 2, 'CasaFondo', 'del fondo'),
         }
         for name in positions:
             center, wall_name, label = locations[name]
@@ -405,6 +442,10 @@ class HouseDemo:
             def window_box(width, depth, height, along, inset, vertical):
                 if wall_name == 'CasaLateralDerecho':
                     return self.box(depth, width, height, l - inset - depth, along, vertical)
+                if wall_name == 'CasaLateralIzquierdo':
+                    return self.box(depth, width, height, inset, along, vertical)
+                if wall_name == 'CasaFondo':
+                    return self.box(width, depth, height, along, w - inset - depth, vertical)
                 return self.box(width, depth, height, along, inset, vertical)
 
             wall = doc.getObject(wall_name)

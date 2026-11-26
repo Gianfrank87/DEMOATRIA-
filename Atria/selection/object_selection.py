@@ -157,6 +157,7 @@ class ObjectSelection:
         for Obj in ActiveDoc.Objects:
             Gui.Selection.addSelection(Obj)
 
+        self._LastSelectedIndex = -1
         print(f"Selected {len(ActiveDoc.Objects)} objects.")
 
     def DeselectAll(self):
