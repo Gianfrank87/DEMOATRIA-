@@ -468,6 +468,7 @@ def move(
 move._param_specs = [
     _ParamSpec(1, "dx", float, True),
     _ParamSpec(2, "dy", float, True),
+    _ParamSpec(3, "dz", float, True),
 ]
 
 # --- Offset ---

@@ -478,4 +478,6 @@ def install(browser):
             demo.tell(message)
             return BrowserResult(False, 'house_demo', message)
     browser.ProcessPhrase = process
+    import demo_extension
+    demo_extension.install_extra(demo)
     return demo
