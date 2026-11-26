@@ -368,4 +368,6 @@ def install_extra(demo):
     demo.roof=lambda doc,floor: _make_pitch(demo,doc,floor)
     demo.grammar=grammar
     demo.handle=handle
+    import demo_rooms
+    demo_rooms.install_room_functions(demo)
     return demo
